@@ -12,6 +12,6 @@ public class KafkaProducerService {
     private static final String TOPIC = "account-events";
 
     public void sendAccountEvent(AccountEventDto event) {
-        kafkaTemplate.send(TOPIC, String.valueOf(event.getAccountId()), event);
+        kafkaTemplate.send(TOPIC, String.valueOf(event.accountId()), event);
     }
 }
