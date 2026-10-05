@@ -1,0 +1,9 @@
+### Deposit to Account
+POST http://localhost:8282/api/v1/accounts/deposit
+Content-Type: application/json
+Accept: application/json
+
+{
+  "accountId": 779,
+  "amount": 510
+}
