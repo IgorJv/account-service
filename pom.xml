@@ -127,6 +127,13 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>demp.demo_app.App</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
