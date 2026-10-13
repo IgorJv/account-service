@@ -3,7 +3,10 @@ package demp.demo_app.service;
 import demp.demo_app.AccountEventDto;
 import lombok.AllArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @AllArgsConstructor
@@ -12,6 +15,14 @@ public class KafkaProducerService {
     private static final String TOPIC = "account-events";
 
     public void sendAccountEvent(AccountEventDto event) {
-        kafkaTemplate.send(TOPIC, String.valueOf(event.accountId()), event);
+        CompletableFuture<SendResult<String, Object>> future =
+                kafkaTemplate.send(TOPIC, String.valueOf(event.accountId()), event);
+        future.whenComplete((result, ex) -> {
+            if (ex == null) {
+                System.out.printf("Sent message=[%s] with offset=[%s]", event, result.getRecordMetadata().offset());
+            } else {
+                System.out.printf("Unable to send message=[%s] due to : %s", event, ex.getMessage());
+            }
+        });
     }
 }
