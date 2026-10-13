@@ -5,11 +5,13 @@ import demp.demo_app.AccountEventDto;
 import demp.demo_app.AccountResult;
 import demp.demo_app.service.KafkaProducerService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/accounts")
 @RequiredArgsConstructor
@@ -24,6 +26,9 @@ public class AccountController {
 
     @PostMapping("/deposit")
     public ResponseEntity<AccountResult> deposit(@RequestBody AccountDepositDto accountDeposit) {
+        log.info("Received deposit request for accountId: {}, amount: {}",
+                accountDeposit.getAccountId(), accountDeposit.getAmount());
+
         MapSqlParameterSource source = new MapSqlParameterSource()
                 .addValue("id", accountDeposit.getAccountId())
                 .addValue("amount", accountDeposit.getAmount());
